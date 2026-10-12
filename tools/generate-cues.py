@@ -47,8 +47,8 @@ def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
     # Last three seconds: one high, short tick each second.
     write_sound("countdown_tick.wav", note(1550, 0.14))
-    # A stage reaches zero: a longer, descending two-note bell.
-    write_sound("stage_end.wav", note(1046.50, 0.28, True) + silence(0.06) + note(659.25, 0.52, True))
+    # A stage reaches zero: one lower, rounded bell strike (no leading high note).
+    write_sound("stage_end.wav", note(440, 0.48, True))
     # The entire workout finishes: three ascending notes, with a sustained final note.
     write_sound("workout_complete.wav", note(659.25, 0.16, True) + silence(0.045)
                 + note(880, 0.16, True) + silence(0.045) + note(1318.51, 0.58, True))
