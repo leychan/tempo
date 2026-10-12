@@ -68,14 +68,16 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun toggleTimer() {
+        var freshStart = false
         when (state.value.timer.status) {
             TimerStatus.RUNNING -> engine.pause()
-            TimerStatus.COMPLETED -> { engine.reset(); engine.start(); cue(Cue.TRANSITION) }
-            TimerStatus.IDLE -> { engine.start(); cue(Cue.TRANSITION) }
+            TimerStatus.COMPLETED -> { engine.reset(); engine.start(); freshStart = true }
+            TimerStatus.IDLE -> { engine.start(); freshStart = true }
             TimerStatus.PAUSED -> engine.start()
         }
         publish()
         mutableState.value = state.value.copy(backgroundPaused = false)
+        if (freshStart) cue(Cue.COUNTDOWN)
         persist()
     }
 

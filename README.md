@@ -3,7 +3,7 @@
 Tempo 是一个原生 Android HIIT 计时器，用清晰的倒计时、阶段提示和训练计划管理，帮助你按自己的节奏完成间歇训练。
 
 - 包名：`io.github.leychan.tempo`
-- 当前版本：`1.2.0`
+- 当前版本：`1.2.1`
 - 最低系统：Android 8.0（API 26）
 - 技术：Kotlin、Jetpack Compose、Material 3
 - 仓库：[leychan/tempo](https://github.com/leychan/tempo)
@@ -33,6 +33,8 @@ Tempo 是一个原生 Android HIIT 计时器，用清晰的倒计时、阶段提
 4. 点击「开始训练」。训练过程中可暂停、继续或重置。
 5. 在「我的计划」管理多个训练方案。
 6. 点击训练页右上角的主题图标，选择「跟随系统／白天／夜间」；旁边的声音图标控制提示音。
+
+最后三秒使用高音单声短「滴」，阶段倒计时结束使用较长的双声「叮—咚」，整次训练完成使用三声上行铃音。音效跟随手机媒体音量，暂停、关闭提示音或离开应用会停止播放。
 
 开始训练后，当前计划的编辑和删除会锁定。切换计划需要确认结束当前训练；至少保留一个计划。
 
@@ -127,6 +129,7 @@ app/src/main/
 │   ├── MainActivity.kt          # 生命周期、提示音、系统栏和屏幕常亮
 │   ├── TimerViewModel.kt        # 计时刷新、计划操作、主题偏好
 │   ├── data/PlanStore.kt        # 本地状态保存及 JSON 编解码
+│   ├── audio/TrainingSounds.kt  # 预加载的倒计时、阶段结束、训练完成音效
 │   ├── domain/
 │   │   ├── TrainingPlan.kt      # 参数校验和阶段序列
 │   │   ├── TimerEngine.kt       # 单调时钟计时状态机
@@ -140,6 +143,7 @@ app/src/main/
 app/src/test/                   # JUnit 计时逻辑测试
 gradle/wrapper/                  # 可复现的 Gradle 版本
 tools/verify-device.ps1          # 可选的 ADB 真机验收辅助脚本
+tools/generate-cues.py           # 使用 Python 标准库生成原创 WAV 音效
 ```
 
 ## 计时与数据

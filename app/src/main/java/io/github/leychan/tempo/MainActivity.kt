@@ -1,7 +1,6 @@
 package io.github.leychan.tempo
 
 import android.media.AudioManager
-import android.media.ToneGenerator
 import android.os.Bundle
 import android.content.res.Configuration
 import android.view.WindowManager
@@ -14,6 +13,8 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.Lifecycle
+import io.github.leychan.tempo.audio.TrainingSounds
 import io.github.leychan.tempo.domain.TimerStatus
 import io.github.leychan.tempo.domain.ThemeMode
 import io.github.leychan.tempo.data.PlanStore
@@ -23,7 +24,7 @@ import io.github.leychan.tempo.ui.LocalTempoColors
 
 class MainActivity : ComponentActivity() {
     private val timerViewModel: TimerViewModel by viewModels()
-    private var tone: ToneGenerator? = null
+    private var trainingSounds: TrainingSounds? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val mode = PlanStore(this).load().themeMode
@@ -32,16 +33,22 @@ class MainActivity : ComponentActivity() {
             R.style.Theme_Tempo_Dark else R.style.Theme_Tempo_Light)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        tone = runCatching { ToneGenerator(AudioManager.STREAM_MUSIC, 70) }.getOrNull()
+        volumeControlStream = AudioManager.STREAM_MUSIC
+        trainingSounds = TrainingSounds(this)
         setContent {
             val state by timerViewModel.state.collectAsStateWithLifecycle()
             LaunchedEffect(timerViewModel) {
                 timerViewModel.cues.collect { cue ->
-                    when (cue) {
-                        Cue.COUNTDOWN -> tone?.startTone(ToneGenerator.TONE_PROP_BEEP, 100)
-                        Cue.TRANSITION -> tone?.startTone(ToneGenerator.TONE_PROP_ACK, 180)
-                        Cue.FINISH -> tone?.startTone(ToneGenerator.TONE_PROP_BEEP2, 500)
+                    val current = timerViewModel.state.value
+                    if (current.soundEnabled && lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) &&
+                        (current.timer.status == TimerStatus.RUNNING || cue == Cue.FINISH && current.timer.status == TimerStatus.COMPLETED)) {
+                        trainingSounds?.play(cue)
                     }
+                }
+            }
+            LaunchedEffect(state.soundEnabled, state.timer.status) {
+                if (!state.soundEnabled || state.timer.status == TimerStatus.PAUSED || state.timer.status == TimerStatus.IDLE) {
+                    trainingSounds?.stop()
                 }
             }
             DisposableEffect(state.timer.status) {
@@ -69,13 +76,14 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onStop() {
+        trainingSounds?.stop()
         if (!isChangingConfigurations) timerViewModel.pauseForBackground()
         super.onStop()
     }
 
     override fun onDestroy() {
-        tone?.release()
-        tone = null
+        trainingSounds?.release()
+        trainingSounds = null
         super.onDestroy()
     }
 }
