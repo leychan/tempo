@@ -1,0 +1,21 @@
+<resources>
+    <style name="Theme.Tempo" parent="Theme.Tempo.Light" />
+    <style name="Theme.Tempo.Light" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#F5F6F8</item>
+        <item name="android:navigationBarColor">#F5F6F8</item>
+        <item name="android:windowBackground">#F5F6F8</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:colorAccent">#087F72</item>
+    </style>
+    <style name="Theme.Tempo.Dark" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#10171C</item>
+        <item name="android:navigationBarColor">#10171C</item>
+        <item name="android:windowBackground">#10171C</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:colorAccent">#83D9C7</item>
+    </style>
+</resources>

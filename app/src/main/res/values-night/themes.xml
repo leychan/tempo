@@ -1,0 +1,3 @@
+<resources>
+    <style name="Theme.Tempo" parent="Theme.Tempo.Dark" />
+</resources>
