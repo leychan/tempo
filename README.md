@@ -3,10 +3,25 @@
 Tempo 是一个原生 Android HIIT 计时器，用清晰的倒计时、阶段提示和训练计划管理，帮助你按自己的节奏完成间歇训练。
 
 - 包名：`io.github.leychan.tempo`
-- 当前版本：`1.2.3`
+- 当前版本：`1.2.4`
 - 最低系统：Android 8.0（API 26）
 - 技术：Kotlin、Jetpack Compose、Material 3
 - 仓库：[leychan/tempo](https://github.com/leychan/tempo)
+
+## 实机截图
+
+Android 真机夜间模式下的训练页与计划管理页。
+
+<table>
+  <tr>
+    <th>间歇训练</th>
+    <th>我的计划</th>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/training.jpg" alt="训练页：阶段倒计时、下一阶段及周期和循环进度" width="280" /></td>
+    <td><img src="docs/screenshots/plans.jpg" alt="计划管理页：轻量间歇和经典 Tabata 的参数及编辑入口" width="280" /></td>
+  </tr>
+</table>
 
 ## 功能
 
@@ -144,6 +159,7 @@ app/src/test/                   # JUnit 计时逻辑测试
 gradle/wrapper/                  # 可复现的 Gradle 版本
 tools/verify-device.ps1          # 可选的 ADB 真机验收辅助脚本
 tools/generate-cues.py           # 使用 Python 标准库生成原创 WAV 音效
+docs/screenshots/               # README 中展示的实机截图
 ```
 
 ## 计时与数据
@@ -169,4 +185,4 @@ App 不需要网络权限，不使用账号、分析服务或远程数据上传�
 
 真机验收建议检查三个页面及两种主题，主题切换和重启后的偏好保存，时间／数量弹窗的确定与取消，以及后台暂停和恢复。ADB 脚本面向本机开发验收，需要已安装 debug 包、默认两个计划、训练页和无活动训练；通过 `-AdbPath` 与 `-Serial` 指定工具及设备。
 
-本地安装包、参考产品图、开发截图、SDK 路径、构建缓存和签名文件均不提交到 Git。
+用于 README 展示的实机截图保存在 `docs/screenshots/`。本地安装包、参考产品图、临时开发截图、SDK 路径、构建缓存和签名文件不提交到 Git。

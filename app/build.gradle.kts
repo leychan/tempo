@@ -12,8 +12,8 @@ android {
         applicationId = "io.github.leychan.tempo"
         minSdk = 26
         targetSdk = 34
-        versionCode = 6
-        versionName = "1.2.3"
+        versionCode = 10
+        versionName = "1.2.4"
     }
     buildTypes {
         release {
